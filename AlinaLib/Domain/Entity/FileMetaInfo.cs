@@ -11,6 +11,7 @@ namespace AlinaLib.Domain.Entity
     {
         private FileInfo? _fileInfo;
 
+        public string FullPath { get; private set; } = string.Empty;
         public string Filename { get; private set; } = string.Empty;
         public string Extension { get; private set; } = string.Empty;
         public string LastModifiedUtc { get; private set; } = string.Empty;
@@ -42,6 +43,7 @@ namespace AlinaLib.Domain.Entity
 
         private void init(string fullPath)
         {
+            FullPath = fullPath;
             initFilename(fullPath);
             initExtension(fullPath);
             if (!tryInitFileInfo(fullPath)) return;

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlinaLib", "AlinaLib\AlinaLib.csproj", "{A0EE31B8-8641-42BB-9AB8-A7804BABBE02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlinaLib", "AlinaLib\AlinaLib.csproj", "{A0EE31B8-8641-42BB-9AB8-A7804BABBE02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlinaWpfUI", "AlinaWpfUI\AlinaWpfUI.csproj", "{E752B874-F76D-450F-80A4-C8867546492B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlinaWpfUI", "AlinaWpfUI\AlinaWpfUI.csproj", "{E752B874-F76D-450F-80A4-C8867546492B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

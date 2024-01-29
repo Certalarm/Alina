@@ -28,11 +28,11 @@ namespace AlinaLib.Domain.Entity
         public FileData(string fullPath)
         {
             _metaInfo = new FileMetaInfo(fullPath);
-            init();
+            Init();
         }
         #endregion
 
-        private void init()
+        private void Init()
         {
             Name = _metaInfo.Filename;
             Extension = _metaInfo.Extension;

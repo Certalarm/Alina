@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlinaLib.Domain.Entity.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AlinaLib.Domain.Entity
 {
-    internal class User
+    internal class User: BaseEntity
     {
-        public string UserId { get; }
         public string Name { get; }
         public string SecondName { get; }
         public string Number { get; }

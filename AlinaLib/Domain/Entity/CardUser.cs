@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlinaLib.Domain.Entity.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AlinaLib.Domain.Entity
 {
-    internal class CardUser
+    internal class CardUser: BaseEntity
     {
-        public string UserId { get; private set; } = string.Empty;
         public string Pan { get; private set; } = string.Empty;
         public string ExpDate { get; private set; } = string.Empty;
         public string FirstName { get; private set; } = string.Empty;

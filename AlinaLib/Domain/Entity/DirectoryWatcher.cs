@@ -48,6 +48,14 @@ namespace AlinaLib.Domain.Entity
             _watcher.EnableRaisingEvents = false;
         }
 
+        public string ProcessingOutputData(bool isCompletedInclude)
+        {
+            var pairIndexes = isCompletedInclude
+                ? Enumerable.Range(0, DataPairs.Count)
+                : this.GetIndexesDataPairsWithPair();
+
+        }
+
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

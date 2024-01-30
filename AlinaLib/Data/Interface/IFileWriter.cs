@@ -1,4 +1,5 @@
-﻿using AlinaLib.Domain.Entity.Base;
+﻿using AlinaLib.Domain.Entity;
+using AlinaLib.Domain.Entity.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace AlinaLib.Data.Interface
 {
     internal interface IFileWriter
     {
-        public bool WriteAll(IEnumerable<BaseEntity> items);
+        public bool WriteAll(OutputData data, string fullPath);
     }
 }

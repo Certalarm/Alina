@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AlinaLib.Utility.Txt;
 
 namespace AlinaLib.Domain.Entity
 {
@@ -30,6 +31,18 @@ namespace AlinaLib.Domain.Entity
             _metaInfo = new FileMetaInfo(fullPath);
             Init();
         }
+
+        public FileData(FileData fileData)
+        {
+            _metaInfo = new FileMetaInfo(fileData._metaInfo.FullPath);
+            Name = fileData.Name;
+            Extension = fileData.Extension;
+            LastModifiedUtc = fileData.LastModifiedUtc;
+            SizeInB = fileData.SizeInB;
+            Items = fileData.Items;
+            IsCompleted = fileData.IsCompleted;
+            HasPair = fileData.HasPair;
+        }
         #endregion
 
         private void Init()
@@ -42,7 +55,7 @@ namespace AlinaLib.Domain.Entity
 
         public int ItemCount() => Items.Count;
 
-        public IReadOnlyList<string> GetUserIds =>
+        public IReadOnlyList<string> GetUserIds() =>
             Items.Any()
                 ? Items
                     .Select(x => x.UserId)
@@ -58,10 +71,9 @@ namespace AlinaLib.Domain.Entity
         private IFileReader СreateReader() =>
             Extension.ToLower() switch
             {
-                "xml" => new XmlFileReader(_metaInfo.FullPath),
-                "csv" => new CsvFileReader(_metaInfo.FullPath),
-                _ => throw new Exception("Неизвестный тип файла!")
+                __xmlExt => new XmlFileReader(_metaInfo.FullPath),
+                __csvExt => new CsvFileReader(_metaInfo.FullPath),
+                _ => throw new ArgumentException(__unknownFileType)
             };
-        
     }
 }

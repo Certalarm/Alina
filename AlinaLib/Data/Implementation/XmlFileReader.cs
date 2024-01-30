@@ -7,10 +7,10 @@ namespace AlinaLib.Data.Implementation
 {
     internal class XmlFileReader : IFileReader
     {
-        private static readonly string __card = "Card";
-        private static readonly string __userId = "UserId";
-        private static readonly string __pan = "Pan";
-        private static readonly string __expDate = "ExpDate";
+        const string __card = "Card";
+        const string __userId = "UserId";
+        const string __pan = "Pan";
+        const string __expDate = "ExpDate";
 
         private readonly string _fullPath = string.Empty;
 

@@ -9,6 +9,7 @@ namespace AlinaWpfUI
     /// </summary>
     public partial class App : Application
     {
+
     }
 
 }

@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+    <BaseOutputPath>C:\Projects\Alina\AlinaWpfUI\bin\Debug\net7.0-windows</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using static AlinaLib.Utility.Txt;
 
 namespace AlinaLib.Domain.Entity
@@ -49,56 +44,15 @@ namespace AlinaLib.Domain.Entity
             if (IsBadParam(dirFullPath))
                 throw new ArgumentException(__dirNoExist);
             _watcher.Path = dirFullPath;
-            _watcher.Filter = $"*.{__csvExt} | *.{__xmlExt}";
+            _watcher.Filter = __searchPattern;
             _watcher.Changed += (_, e) => _filteredFilePathsQueue.Add(e.FullPath);
             _watcher.Created += (_, e) => _filteredFilePathsQueue.Add(e.FullPath);
         }
 
-        public IList<DataPair> GetPairsCsvOnly() =>
-            DataPairs.Any()
-                ? DataPairs
-                    .Where(x => !x.hasBothHalf() && x.CsvData != null)
-                    .ToList()
-                : Array.Empty<DataPair>();
-
-        public IList<DataPair> GetPairsXmlOnly() =>
-            DataPairs.Any()
-                ? DataPairs
-                    .Where(x => !x.hasBothHalf() && x.XmlData != null)
-                    .ToList()
-                : Array.Empty<DataPair>();
-
-        public IList<string> GetCsvFilePathsWoPair() =>
-            DataPairs.Any()
-                ? GetPairsCsvOnly()
-                    .Select(x => x.CsvData!.Fullname)
-                    .ToList()
-                : Array.Empty<string>();
-
-        public IList<string> GetXmlFilePathsWoPair() =>
-            DataPairs.Any()
-                ? GetPairsXmlOnly()
-                    .Select(x => x.XmlData!.Fullname)
-                    .ToList()
-                : Array.Empty<string>();
-
-        public IList<string> getFilePaths() =>
-            DataPairs.Any()
-                ? DataPairs
-                    .SelectMany(x => x.FullPaths())
-                    .ToList()
-                : Array.Empty<string>();
-
-        public IList<DataPair> GetDataPairsWoPair() =>
-            DataPairs.Any()
-                ? DataPairs
-                    .Where(x => !x.hasBothHalf())
-                    .ToList()
-                : Array.Empty<DataPair>();
-
         public void Start()
         {
             if (_watcher.EnableRaisingEvents) return;
+            AddExistFilenamesToQueue();
             _watcher.EnableRaisingEvents = true;
             ProcessingFileChanges();
         }
@@ -115,10 +69,25 @@ namespace AlinaLib.Domain.Entity
             return !Directory.Exists(dirFullPath);
         }
 
-        //private void Watcher_Change(object sender, FileSystemEventArgs e)
-        //{
-        //   // e.FullPath;
-        //}
+        private void AddExistFilenamesToQueue()
+        {
+            foreach(var filename in getExistFiles())
+            {
+                _filteredFilePathsQueue.Add(filename);
+            }
+        }
+
+        private IEnumerable<string> getExistFiles()
+        {
+            try
+            {
+                return Directory.EnumerateFiles(_watcher.Path, __searchPattern, SearchOption.TopDirectoryOnly);
+            }
+            catch
+            {
+                throw new Exception(__dirNotRead);
+            }
+        }
 
         private void ProcessingFileChanges()
         {
@@ -133,20 +102,18 @@ namespace AlinaLib.Domain.Entity
             if (!DataPairs.Any())
             {
                 DataPairs.Add(new DataPair(filePath));
-                // change Event!!!!
             }
             else
             {
-                if (getFilePaths().Contains(filePath)) return;
+                if (this.GetFilePaths().Contains(filePath)) return;
                 FindHalfOrAdd(filePath);
-                // change Event!!!
             }
         }
 
         private void FindHalfOrAdd(string filePath)
         {
             bool wasFindedPair = false;
-            foreach (var dataPair in GetDataPairsWoPair())
+            foreach (var dataPair in this.GetDataPairsWoPair())
             {
                 if (dataPair.FindHalf(filePath))
                 {

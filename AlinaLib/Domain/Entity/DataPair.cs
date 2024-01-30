@@ -26,6 +26,32 @@ namespace AlinaLib.Domain.Entity
 
         public bool hasBothHalf() => XmlData != null && CsvData != null;
 
+        public bool FindHalf(string fullPath)
+        {
+            //foreach (var path in fullPaths)
+            //{
+                var firstHalfExt = GetExistHalfExtension();
+                var secondHalf = new FileData(fullPath);
+                if (!IsGoodExts(firstHalfExt, secondHalf.Extension)) return false;
+                var existHalf = GetExistHalf(firstHalfExt);
+                ReadItems(existHalf, secondHalf);
+                if (IsSkipPath(existHalf, secondHalf)) return false;
+                updateHalfs(existHalf, secondHalf);
+                return true;
+            //}
+           // return false;
+        }
+
+        public IList<string> FullPaths()
+        {
+            var result = new List<string>();
+            if (CsvData != null)
+                result.Add(CsvData.Fullname);
+            if (XmlData != null)
+                result.Add(XmlData.Fullname);
+            return result;
+        }
+
         private void InitHalf(string fullPathAnyHalf) 
         {
             var someFileData = new FileData(fullPathAnyHalf);
@@ -35,22 +61,6 @@ namespace AlinaLib.Domain.Entity
                 case __xmlExt: XmlData = new FileData(someFileData); break;
                 default: throw new ArgumentException(__unknownFileType);
             }
-        }
-
-        public bool FindHalf(IEnumerable<string> fullPaths)
-        {
-            foreach (var path in fullPaths)
-            {
-                var firstHalfExt = GetExistHalfExtension();
-                var secondHalf = new FileData(path);
-                if (!IsGoodExts(firstHalfExt, secondHalf.Extension)) continue;
-                var existHalf = GetExistHalf(firstHalfExt);
-                ReadItems(existHalf, secondHalf);
-                if (IsSkipPath(existHalf, secondHalf)) continue;
-                updateHalfs(existHalf, secondHalf);
-                return true;
-            }
-            return false;
         }
 
         private string GetExistHalfExtension()
@@ -91,6 +101,7 @@ namespace AlinaLib.Domain.Entity
                 XmlData = new FileData(secondHalf);
             if (existHalf.Extension == __xmlExt)
                 CsvData = new FileData(secondHalf);
+            RecordCount = existHalf.ItemCount();
         }
 
         private bool IsEqualsUserIds(IEnumerable<string> first, IEnumerable<string> second) =>

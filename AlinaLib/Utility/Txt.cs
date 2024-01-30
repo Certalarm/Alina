@@ -12,5 +12,6 @@ namespace AlinaLib.Utility
         internal const string __xmlExt = "xml";
 
         internal const string __unknownFileType = "Неизвестный тип файла!";
+        internal const string __dirNoExist = "Указанная папка не существует!";
     }
 }

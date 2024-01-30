@@ -15,6 +15,7 @@ namespace AlinaLib.Domain.Entity
         private FileMetaInfo _metaInfo;
 
         public string Name { get; private set; } = string.Empty;
+        public string Fullname { get; private set; } = string.Empty;
         public string Extension { get; private set; } = string.Empty;
         public string LastModifiedUtc { get; private set; } = string.Empty;
         public string SizeInB { get; set; } = string.Empty;
@@ -35,6 +36,7 @@ namespace AlinaLib.Domain.Entity
         public FileData(FileData fileData)
         {
             _metaInfo = new FileMetaInfo(fileData._metaInfo.FullPath);
+            Fullname = fileData._metaInfo.FullPath;
             Name = fileData.Name;
             Extension = fileData.Extension;
             LastModifiedUtc = fileData.LastModifiedUtc;
@@ -47,6 +49,7 @@ namespace AlinaLib.Domain.Entity
 
         private void Init()
         {
+            Fullname = _metaInfo.FullPath;
             Name = _metaInfo.Filename;
             Extension = _metaInfo.Extension;
             LastModifiedUtc = _metaInfo.LastModifiedUtc;

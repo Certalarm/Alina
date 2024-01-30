@@ -9,10 +9,10 @@ using static AlinaLib.Utility.Txt;
 
 namespace AlinaLib.Domain.Entity
 {
-    internal class DataPair
+    public class DataPair
     {
-        public FileData? XmlData { get; private set; }
-        public FileData? CsvData { get; private set; }
+        internal FileData? XmlData { get; private set; }
+        internal FileData? CsvData { get; private set; }
 
         public int RecordCount { get; private set; } = 0;
         public bool isCompleted { get; private set; } = false;

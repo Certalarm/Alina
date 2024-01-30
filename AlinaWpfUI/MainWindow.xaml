@@ -3,10 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AlinaWpfUI"
+        xmlns:local="clr-namespace:AlinaWpfUI" 
+        xmlns:entity="clr-namespace:AlinaLib.Domain.Entity;assembly=AlinaLib" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        
 
-    </Grid>
+        Title="Alina - test job" Height="470" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь до наблюдаемой папки:" Margin="0,10,0,0" Width="776">
+            <DockPanel>
+                <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
+                    <DockPanel>
+                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding FolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="Button_Click">Выбрать</Button>
+                    </DockPanel>
+                </RadioButton>
+                <RadioButton Content="Взять из файла 'Settings.xml'" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="20"/>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Height="150" VerticalAlignment="Top" Header="Найденные пары файлов:" DockPanel.Dock="Top" Margin="10, 10, 10, 0">
+            <ListView>
+                
+            </ListView>
+        </GroupBox>
+        <DockPanel DockPanel.Dock="Top" Height="130" VerticalAlignment="Stretch" Margin="10">
+            <GroupBox DockPanel.Dock="left" Width="400" VerticalAlignment="Stretch" HorizontalAlignment="Left" Header="Найденные файлы .csv">
+                <ListView>
+                    
+                </ListView>
+            </GroupBox>
+            <GroupBox DockPanel.Dock="Right" Header="Найденные файлы .xml" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView>
+                    
+                </ListView>
+            </GroupBox>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Height="40" VerticalAlignment="Bottom">
+            <Border>
+                <Button Margin="10">Сформировать отчет</Button> 
+            </Border>
+        </DockPanel>
+    </DockPanel>
 </Window>

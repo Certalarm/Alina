@@ -6,7 +6,7 @@ using static AlinaLib.Utility.Txt;
 
 namespace AlinaLib.Domain.Entity
 {
-    internal class DirectoryWatcher: INotifyPropertyChanged
+    public class DirectoryWatcher: INotifyPropertyChanged
     {
         private FileSystemWatcher _watcher;
         private BlockingCollection<string> _filteredFilePathsQueue;
@@ -34,21 +34,6 @@ namespace AlinaLib.Domain.Entity
         }
         #endregion
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void InitWatcherParams(string dirFullPath)
-        {
-            if (IsBadParam(dirFullPath))
-                throw new ArgumentException(__dirNoExist);
-            _watcher.Path = dirFullPath;
-            _watcher.Filter = __searchPattern;
-            _watcher.Changed += (_, e) => _filteredFilePathsQueue.Add(e.FullPath);
-            _watcher.Created += (_, e) => _filteredFilePathsQueue.Add(e.FullPath);
-        }
-
         public void Start()
         {
             if (_watcher.EnableRaisingEvents) return;
@@ -61,6 +46,27 @@ namespace AlinaLib.Domain.Entity
         {
             if (!_watcher.EnableRaisingEvents) return;
             _watcher.EnableRaisingEvents = false;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void InitWatcherParams(string dirFullPath)
+        {
+            if (IsBadParam(dirFullPath))
+                throw new ArgumentException(__dirNoExist);
+            _watcher.Path = dirFullPath;
+            _watcher.Filter = __searchPattern;
+            _watcher.Changed += (_, e) => StartProcessingFileChanges(e.FullPath);
+            _watcher.Created += (_, e) => StartProcessingFileChanges(e.FullPath);
+        }
+
+        private void StartProcessingFileChanges(string fullPath)
+        {
+            _filteredFilePathsQueue.Add(fullPath);
+            ProcessingFileChanges();
         }
 
         private bool IsBadParam(string dirFullPath)

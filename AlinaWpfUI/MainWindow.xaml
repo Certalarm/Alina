@@ -12,31 +12,24 @@
         WindowStartupLocation="CenterScreen"
         Closed="Window_Closed">
     <DockPanel>
-        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь до наблюдаемой папки:" Margin="0,10,0,0" Width="776">
+        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь до наблюдаемой папки:" Margin="10,10,10,0" Width="auto">
             <DockPanel>
-                <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
-                    <DockPanel>
-                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
-                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonIn_Click">Выбрать</Button>
-                    </DockPanel>
-                </RadioButton>
-                <RadioButton Content="Взять из файла 'Settings.xml'" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="20"/>
+                <DockPanel Height="25">
+                    <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                    <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonIn_Click">Выбрать</Button>
+                </DockPanel>
             </DockPanel>
         </GroupBox>
-        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь выходных файлов:" Margin="0,10,0,0" Width="776">
-            <DockPanel>
-                <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
-                    <DockPanel>
-                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
-                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonOut_Click">Выбрать</Button>
-                    </DockPanel>
-                </RadioButton>
-                <RadioButton Content="Взять из файла 'Settings.xml'" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="20"/>
+        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь выходных файлов:" Margin="10,10,10,0" Width="auto">
+            <DockPanel Height="25">
+                <DockPanel>
+                    <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                    <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonOut_Click">Выбрать</Button>
+                </DockPanel>
             </DockPanel>
         </GroupBox>
         <GroupBox Height="150" VerticalAlignment="Top" Header="Найденные пары файлов:" DockPanel.Dock="Top" Margin="10, 10, 10, 0">
             <ListView x:Name="PairLV">
-                
             </ListView>
         </GroupBox>
         <DockPanel DockPanel.Dock="Top" Height="130" VerticalAlignment="Stretch" Margin="10">
@@ -46,16 +39,15 @@
             </GroupBox>
             <GroupBox DockPanel.Dock="Right" Header="Найденные файлы .xml" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <ListView x:Name="XmlLV">
-                    
                 </ListView>
             </GroupBox>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Bottom" Height="40" VerticalAlignment="Bottom">
+        <DockPanel DockPanel.Dock="Bottom" Height="50" VerticalAlignment="Bottom">
             <Border>
                 <Button Margin="10" Click="ButtonReport_Click">Сформировать отчет</Button> 
             </Border>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Top" Height="110" VerticalAlignment="top">
+        <DockPanel DockPanel.Dock="Top" MinHeight="100" VerticalAlignment="Stretch">
             <GroupBox Header="Результат отчета:" Margin="10">
                 <TextBox x:Name="TBox">
                 </TextBox>

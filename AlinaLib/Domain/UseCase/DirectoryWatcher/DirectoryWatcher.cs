@@ -5,9 +5,9 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using static AlinaLib.Utility.Txt;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
-    public class DirectoryWatcher: INotifyPropertyChanged
+    public class DirectoryWatcher : INotifyPropertyChanged
     {
         private FileSystemWatcher _watcher;
         private BlockingCollection<string> _filteredFilePathsQueue;
@@ -15,9 +15,9 @@ namespace AlinaLib.Domain.Entity
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public List<DataPair> DataPairs 
+        public List<DataPair> DataPairs
         {
-            get { return _dataPairs; } 
+            get { return _dataPairs; }
             private set
             {
                 _dataPairs = value;
@@ -31,7 +31,7 @@ namespace AlinaLib.Domain.Entity
             _watcher = new FileSystemWatcher();
             _filteredFilePathsQueue = new BlockingCollection<string>();
             _dataPairs = new List<DataPair>();
-            InitWatcherParams(dirFullPath);     
+            InitWatcherParams(dirFullPath);
         }
         #endregion
 
@@ -54,10 +54,10 @@ namespace AlinaLib.Domain.Entity
             var pairIndexes = this.GetProcessingIndexes(isCompletedInclude);
             if (!pairIndexes.Any()) return string.Empty;
             string processedFileNames = string.Empty;
-            foreach(var index in  pairIndexes)
+            foreach (var index in pairIndexes)
             {
                 var savedName = SaveOutputData(outputDirPath, index);
-                if(savedName.Length > 0)
+                if (savedName.Length > 0)
                     processedFileNames += savedName;
             }
             return processedFileNames.Length > 0
@@ -107,7 +107,7 @@ namespace AlinaLib.Domain.Entity
 
         private void AddExistFilenamesToQueue()
         {
-            foreach(var filename in getExistFiles())
+            foreach (var filename in getExistFiles())
             {
                 _filteredFilePathsQueue.Add(filename);
             }
@@ -127,7 +127,7 @@ namespace AlinaLib.Domain.Entity
 
         private void ProcessingFileChanges()
         {
-            while(!_filteredFilePathsQueue.IsCompleted)
+            while (!_filteredFilePathsQueue.IsCompleted)
             {
                 updateDataPairs(_filteredFilePathsQueue.Take());
             }

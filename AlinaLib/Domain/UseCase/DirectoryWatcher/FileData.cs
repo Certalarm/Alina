@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static AlinaLib.Utility.Txt;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     internal class FileData
     {
@@ -20,7 +20,7 @@ namespace AlinaLib.Domain.Entity
         public string LastModifiedUtc { get; private set; } = string.Empty;
         public string SizeInB { get; set; } = string.Empty;
 
-        public List<BaseEntity> Items {  get; private set; } = new List<BaseEntity>();
+        public List<BaseEntity> Items { get; private set; } = new List<BaseEntity>();
 
         public bool IsCompleted { get; set; } = false;
 

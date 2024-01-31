@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     internal class FileMetaInfo
     {
@@ -39,7 +39,7 @@ namespace AlinaLib.Domain.Entity
                 return false;
             }
             return _fileInfo != null;
-        } 
+        }
 
         private void init(string fullPath)
         {
@@ -51,12 +51,12 @@ namespace AlinaLib.Domain.Entity
             initSizeInB();
         }
 
-        private void initFilename(string fullPath) =>  Filename = Path.GetFileName(fullPath);
-        
+        private void initFilename(string fullPath) => Filename = Path.GetFileName(fullPath);
+
         private void initExtension(string fullPath) => Extension = Path.GetExtension(fullPath);
 
         private void initLastModified() => LastModifiedUtc = _fileInfo!.LastWriteTimeUtc.ToString();
-        
+
         private void initSizeInB() => SizeInB = _fileInfo!.Length.ToString();
     }
 }

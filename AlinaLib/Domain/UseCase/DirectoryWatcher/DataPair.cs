@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static AlinaLib.Utility.Txt;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     public class DataPair
     {
@@ -20,7 +20,7 @@ namespace AlinaLib.Domain.Entity
         #region .ctors
         public DataPair(string fullPathAnyHalf)
         {
-            InitHalf(fullPathAnyHalf);       
+            InitHalf(fullPathAnyHalf);
         }
         #endregion
 
@@ -30,16 +30,16 @@ namespace AlinaLib.Domain.Entity
         {
             //foreach (var path in fullPaths)
             //{
-                var firstHalfExt = GetExistHalfExtension();
-                var secondHalf = new FileData(fullPath);
-                if (!IsGoodExts(firstHalfExt, secondHalf.Extension)) return false;
-                var existHalf = GetExistHalf(firstHalfExt);
-                ReadItems(existHalf, secondHalf);
-                if (IsSkipPath(existHalf, secondHalf)) return false;
-                updateHalfs(existHalf, secondHalf);
-                return true;
+            var firstHalfExt = GetExistHalfExtension();
+            var secondHalf = new FileData(fullPath);
+            if (!IsGoodExts(firstHalfExt, secondHalf.Extension)) return false;
+            var existHalf = GetExistHalf(firstHalfExt);
+            ReadItems(existHalf, secondHalf);
+            if (IsSkipPath(existHalf, secondHalf)) return false;
+            updateHalfs(existHalf, secondHalf);
+            return true;
             //}
-           // return false;
+            // return false;
         }
 
         public IList<string> FullPaths()
@@ -52,7 +52,7 @@ namespace AlinaLib.Domain.Entity
             return result;
         }
 
-        private void InitHalf(string fullPathAnyHalf) 
+        private void InitHalf(string fullPathAnyHalf)
         {
             var someFileData = new FileData(fullPathAnyHalf);
             switch (someFileData.Extension)

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using static AlinaLib.Utility.Txt;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     internal static class FileNamer
     {

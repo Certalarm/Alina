@@ -1,11 +1,12 @@
-﻿using AlinaLib.Domain.Entity.Base;
+﻿using AlinaLib.Domain.Entity;
+using AlinaLib.Domain.Entity.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     internal static class DirectoryWatcherHelper
     {
@@ -34,7 +35,7 @@ namespace AlinaLib.Domain.Entity
         }
 
         private static Record ToRecord(Card? card, User? user)
-        {  
+        {
             return new Record
             {
                 UserId = card?.UserId ?? string.Empty,

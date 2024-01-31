@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AlinaLib.Domain.Entity.DirectoryWatcherHelper;
+using AlinaLib.Domain.Entity;
+using static AlinaLib.Domain.UseCase.DirectoryWatcher.DirectoryWatcherHelper;
 
-namespace AlinaLib.Domain.Entity
+namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
     public static class DirectoryWatcherExt
     {

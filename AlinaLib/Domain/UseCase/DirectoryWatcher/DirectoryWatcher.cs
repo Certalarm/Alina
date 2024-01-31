@@ -61,7 +61,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
                     processedFileNames += savedName;
             }
             return processedFileNames.Length > 0
-                ? processedFileNames.Substring(0, processedFileNames.Length - Environment.NewLine.Length)
+                ? processedFileNames[..^Environment.NewLine.Length]
                 : processedFileNames;
         }
 
@@ -79,6 +79,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             {
                 processedFileName += string.Concat(Path.GetFileName(fullPath), Environment.NewLine);
                 DataPairs[index].isCompleted = true;
+                OnPropertyChanged(nameof(DataPairs));
             }
             return processedFileName;
         }
@@ -95,8 +96,16 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 
         private void StartProcessingFileChanges(string fullPath)
         {
+            if (isBadExt(fullPath)) return;
             _filteredFilePathsQueue.Add(fullPath);
             ProcessingFileChanges();
+        }
+
+        private bool isBadExt(string fullPath)
+        {
+            var needExt = new string[] { __csvExt, __xmlExt };
+            return !needExt
+                .Any(x => fullPath.ToLower().EndsWith(x));
         }
 
         private bool IsBadParam(string dirFullPath)

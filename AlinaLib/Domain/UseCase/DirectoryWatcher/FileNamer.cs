@@ -8,7 +8,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         public static string GetOutputJsonFilePath(string dirFullPath) =>
             string.IsNullOrWhiteSpace(dirFullPath)
                 ? string.Empty
-                : string.Concat(GetFullPathWoExt(dirFullPath), __jsonExt);
+                : string.Concat(GetFullPathWoExt(dirFullPath), "." + __jsonExt);
 
         private static string GetFullPathWoExt(string dirfFullPath) =>
             Path.Combine(dirfFullPath, GenerateFileNameWoExt());

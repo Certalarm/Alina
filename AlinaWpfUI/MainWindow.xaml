@@ -27,7 +27,7 @@
             <DockPanel>
                 <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
                     <DockPanel>
-                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
                         <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonOut_Click">Выбрать</Button>
                     </DockPanel>
                 </RadioButton>
@@ -52,8 +52,14 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Height="40" VerticalAlignment="Bottom">
             <Border>
-                <Button Margin="10">Сформировать отчет</Button> 
+                <Button Margin="10" Click="ButtonReport_Click">Сформировать отчет</Button> 
             </Border>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Height="110" VerticalAlignment="top">
+            <GroupBox Header="Результат отчета:" Margin="10">
+                <TextBox x:Name="TBox">
+                </TextBox>
+            </GroupBox>
         </DockPanel>
     </DockPanel>
 </Window>

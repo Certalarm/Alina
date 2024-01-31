@@ -1,11 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AlinaLib.Utility.Txt;
+﻿using static AlinaLib.Utility.Txt;
 
 namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 {
@@ -28,8 +21,6 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 
         public bool FindHalf(string fullPath)
         {
-            //foreach (var path in fullPaths)
-            //{
             var firstHalfExt = GetExistHalfExtension();
             var secondHalf = new FileData(fullPath);
             if (!IsGoodExts(firstHalfExt, secondHalf.Extension)) return false;
@@ -38,8 +29,6 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             if (IsSkipPath(existHalf, secondHalf)) return false;
             updateHalfs(existHalf, secondHalf);
             return true;
-            //}
-            // return false;
         }
 
         public IList<string> FullPaths()

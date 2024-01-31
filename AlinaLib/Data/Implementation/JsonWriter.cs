@@ -1,13 +1,9 @@
 ﻿using AlinaLib.Data.Interface;
-using AlinaLib.Domain.Entity.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
 using AlinaLib.Domain.Entity;
 using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace AlinaLib.Data.Implementation
 {
@@ -26,7 +22,7 @@ namespace AlinaLib.Data.Implementation
         {
             string jsonText = getJson(data);
             if (jsonText.Length < 1) return false;
-            return WriteToFile(jsonText, _fullPath);
+            return WriteToFile(_fullPath, jsonText);
         }
 
         private string getJson(OutputData data)
@@ -39,21 +35,22 @@ namespace AlinaLib.Data.Implementation
             catch
             {
                 result = string.Empty;
-            }
+            } 
             return result;
         }
 
         private JsonSerializerOptions getJsonOptions() =>
             new()
             {
-                WriteIndented = true
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
 
         private bool WriteToFile(string fullPath, string data)
         {
             try
             {
-                using StreamWriter writer = new(fullPath, Encoding.UTF8, getFileOptions());
+                using StreamWriter writer = new(fullPath, Encoding.Unicode, getFileOptions());
                 writer.WriteLine(data);
             }
             catch
@@ -67,7 +64,7 @@ namespace AlinaLib.Data.Implementation
             new()
             {
                 Access = FileAccess.Write,
-                Mode = FileMode.CreateNew
+                Mode = FileMode.CreateNew,
             };
     }
 }

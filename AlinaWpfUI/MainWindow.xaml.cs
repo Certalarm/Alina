@@ -1,9 +1,5 @@
-﻿using AlinaLib;
-using AlinaLib.Domain.Entity;
-using AlinaLib.Domain.UseCase.DirectoryWatcher;
+﻿using AlinaLib.Domain.UseCase.DirectoryWatcher;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.DirectoryServices.ActiveDirectory;
 using System.Windows;
 
 namespace AlinaWpfUI
@@ -55,22 +51,23 @@ namespace AlinaWpfUI
         {
             if (_dirWatcher.GetCsvFilePathsWoPair().Count > 0)
             {
-                InvokeAddRange(CsvFiles, _dirWatcher.GetPairsCsvOnlyAsString());
+                InvokeAddOrChangeRange(CsvFiles, _dirWatcher.GetPairsCsvOnlyAsString());
             }
 
             if (_dirWatcher.GetXmlFilePathsWoPair().Count > 0)
             {
-                InvokeAddRange(XmlFiles, _dirWatcher.GetPairsXmlOnlyAsString());
+                InvokeAddOrChangeRange(XmlFiles, _dirWatcher.GetPairsXmlOnlyAsString());
             }
 
             if (_dirWatcher.GetDataPairsWithPair().Count > 0)
             {
-                InvokeAddRange(PairFiles, _dirWatcher.GetDataPairsWithPairAsString());
+                InvokeAddOrChangeRange(PairFiles, _dirWatcher.GetDataPairsWithPairAsString());
             }
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            _dirWatcher.Stop();
             CancelWatcher();
         }
 
@@ -80,9 +77,10 @@ namespace AlinaWpfUI
             {
                 SelectedPath = Folders[1]
             };
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+            if (Folders[1] != dialog.SelectedPath)
             {
-                this.Folders[1] = dialog.SelectedPath;
+                Folders[1] = dialog.SelectedPath;
             }
         }
 
@@ -99,18 +97,19 @@ namespace AlinaWpfUI
             _dirWatcher = null;
         }
 
-        private void InvokeAddRange(ObservableCollection<string> target, IList<string> source)
+        private void InvokeAddOrChangeRange(ObservableCollection<string> target, IList<string> source)
         {
-            Dispatcher.Invoke(() => AddRange(target, source));
+            Dispatcher.Invoke(() => AddOrChangeRange(target, source));
         }
 
-        private void AddRange(ObservableCollection<string> target, IList<string> source)
+        private void AddOrChangeRange(ObservableCollection<string> target, IList<string> source)
         {
             if (source.Count < 1) return;
-            foreach (var entry in source)
+            for (int i = 0; i < source.Count; i++)
             {
-                if (!target.Contains(entry))
-                    target.Add(entry);
+                if (!target.Select(x => x.Substring(0, 40)).Contains(source[i].Substring(0, 40)))
+                    target.Add(source[i]);
+                else target[i] = source[i];
             }
         }
 
@@ -119,6 +118,11 @@ namespace AlinaWpfUI
             XmlFiles.Clear();
             CsvFiles.Clear();
             PairFiles.Clear();
+        }
+
+        private void ButtonReport_Click(object sender, RoutedEventArgs e)
+        {
+            TBox.Text = _dirWatcher.ProcessingOutputData(Folders[1]);
         }
     }
 }

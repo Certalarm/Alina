@@ -51,13 +51,25 @@ namespace AlinaLib.Domain.Entity
                     .ToList()
                 : Array.Empty<DataPair>();
 
-        public static IList<int> GetIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
+        public static IList<int> GetAllIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? Enumerable.Range(0, watcher.DataPairs.Count)
                     .Where(x => watcher.DataPairs[x].hasBothHalf())
                     .ToList()
                 : Array.Empty<int>();
 
+
+        public static IList<int> GetNotCompletedIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
+            watcher.DataPairs.Any()
+                ? Enumerable.Range(0, watcher.DataPairs.Count)
+                    .Where(x => watcher.DataPairs[x].hasBothHalf() && watcher.DataPairs[x].isCompleted)
+                    .ToList()
+                : Array.Empty<int>();
+
+        public static IList<int> GetProcessingIndexes(this DirectoryWatcher watcher, bool isCompletedInclude) =>
+            isCompletedInclude
+                ? watcher.GetNotCompletedIndexesDataPairsWithPair()
+                : watcher.GetAllIndexesDataPairsWithPair();
 
         public static OutputData ToOutputData(this DataPair pair)
         {

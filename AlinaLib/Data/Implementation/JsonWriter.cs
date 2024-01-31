@@ -13,11 +13,20 @@ namespace AlinaLib.Data.Implementation
 {
     internal class JsonWriter : IFileWriter
     {
-        public bool WriteAll(OutputData data, string fullPath)
+        private string _fullPath;
+
+        #region .ctors
+        public JsonWriter(string fullPath)
+        {
+            _fullPath = fullPath;
+        }
+        #endregion
+
+        public bool WriteAll(OutputData data)
         {
             string jsonText = getJson(data);
             if (jsonText.Length < 1) return false;
-            return WriteToFile(jsonText, fullPath);
+            return WriteToFile(jsonText, _fullPath);
         }
 
         private string getJson(OutputData data)

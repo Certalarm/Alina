@@ -1,8 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using AlinaLib.Data.Implementation;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using static AlinaLib.Utility.Txt;
+using static AlinaLib.Domain.Entity.DirectoryWatcherHelper;
+using System;
 
 namespace AlinaLib.Domain.Entity
 {
@@ -48,17 +51,38 @@ namespace AlinaLib.Domain.Entity
             _watcher.EnableRaisingEvents = false;
         }
 
-        public string ProcessingOutputData(bool isCompletedInclude)
+        public string ProcessingOutputData(string outputDirPath, bool isCompletedInclude = false)
         {
-            var pairIndexes = isCompletedInclude
-                ? Enumerable.Range(0, DataPairs.Count)
-                : this.GetIndexesDataPairsWithPair();
-
+            var pairIndexes = this.GetProcessingIndexes(isCompletedInclude);
+            if (!pairIndexes.Any()) return string.Empty;
+            string processedFileNames = string.Empty;
+            foreach(var index in  pairIndexes)
+            {
+                var savedName = SaveOutputData(outputDirPath, index);
+                if(savedName.Length > 0)
+                    processedFileNames += savedName;
+            }
+            return processedFileNames.Length > 0
+                ? processedFileNames.Substring(0, processedFileNames.Length - Environment.NewLine.Length)
+                : processedFileNames;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private string SaveOutputData(string outputDirPath, int index)
+        {
+            var processedFileName = string.Empty;
+            var fullPath = FileNamer.GetOutputJsonFilePath(outputDirPath);
+            var jsonWriter = new JsonWriter(fullPath);
+            if (jsonWriter.WriteAll(DataPairs[index].ToOutputData()))
+            {
+                processedFileName += string.Concat(Path.GetFileName(fullPath), Environment.NewLine);
+                DataPairs[index].isCompleted = true;
+            }
+            return processedFileName;
         }
 
         private void InitWatcherParams(string dirFullPath)

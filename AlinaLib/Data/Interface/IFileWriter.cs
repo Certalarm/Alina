@@ -10,6 +10,6 @@ namespace AlinaLib.Data.Interface
 {
     internal interface IFileWriter
     {
-        public bool WriteAll(OutputData data, string fullPath);
+        public bool WriteAll(OutputData data);
     }
 }

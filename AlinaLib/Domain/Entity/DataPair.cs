@@ -15,7 +15,7 @@ namespace AlinaLib.Domain.Entity
         internal FileData? CsvData { get; private set; }
 
         public int RecordCount { get; private set; } = 0;
-        public bool isCompleted { get; private set; } = false;
+        public bool isCompleted { get; set; } = false;
 
         #region .ctors
         public DataPair(string fullPathAnyHalf)

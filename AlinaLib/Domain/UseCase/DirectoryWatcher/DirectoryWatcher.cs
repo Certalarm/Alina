@@ -11,7 +11,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
     {
         private FileSystemWatcher _watcher;
         private BlockingCollection<string> _filteredFilePathsQueue;
-        private List<DataPair> _dataPairs;
+        private List<DataPair> _dataPairs = new List<DataPair>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -88,7 +88,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             if (IsBadParam(dirFullPath))
                 throw new ArgumentException(__dirNoExist);
             _watcher.Path = dirFullPath;
-            _watcher.Filter = __searchPattern;
+            _watcher.Filter = $"*.{__csvExt}";//__searchPattern;
             _watcher.Changed += (_, e) => StartProcessingFileChanges(e.FullPath);
             _watcher.Created += (_, e) => StartProcessingFileChanges(e.FullPath);
         }
@@ -117,7 +117,8 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         {
             try
             {
-                return Directory.EnumerateFiles(_watcher.Path, __searchPattern, SearchOption.TopDirectoryOnly);
+                return Directory.EnumerateFiles(_watcher.Path, "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(x=> x.ToLower().EndsWith(__csvExt) || x.ToLower().EndsWith(__xmlExt));
             }
             catch
             {
@@ -127,8 +128,10 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 
         private void ProcessingFileChanges()
         {
+            if (_filteredFilePathsQueue.Count < 1) return;
             while (!_filteredFilePathsQueue.IsCompleted)
             {
+                if (!_filteredFilePathsQueue.Any()) break;
                 updateDataPairs(_filteredFilePathsQueue.Take());
             }
         }

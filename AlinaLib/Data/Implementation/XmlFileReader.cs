@@ -17,7 +17,7 @@ namespace AlinaLib.Data.Implementation
         #region .ctors
         public XmlFileReader(string fullPath)
         {
-            _fullPath = fullPath;     
+            _fullPath = fullPath;
         }
         #endregion
 
@@ -32,7 +32,7 @@ namespace AlinaLib.Data.Implementation
                 if (NeedSkipNode(xmlReader)) continue;
                 var node = selectCardNode(doc, xmlReader);
                 var card = ParseCard(node);
-                if(card.UserId.Length > 0)
+                if (card.UserId.Length > 0)
                     result.Add(card);
             }
             return result;

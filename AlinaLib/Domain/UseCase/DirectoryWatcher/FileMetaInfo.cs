@@ -53,7 +53,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
 
         private void initFilename(string fullPath) => Filename = Path.GetFileName(fullPath);
 
-        private void initExtension(string fullPath) => Extension = Path.GetExtension(fullPath);
+        private void initExtension(string fullPath) => Extension = Path.GetExtension(fullPath).TrimStart('.');
 
         private void initLastModified() => LastModifiedUtc = _fileInfo!.LastWriteTimeUtc.ToString();
 

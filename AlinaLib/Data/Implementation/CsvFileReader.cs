@@ -24,7 +24,7 @@ namespace AlinaLib.Data.Implementation
         {
             var result = new List<BaseEntity>();
             if (string.IsNullOrWhiteSpace(_fullPath)) return result;
-            foreach(var line in ReadLines())
+            foreach (var line in ReadLines())
             {
                 if (line.StartsWith(__userId)) continue;
                 var user = ParseUser(line);

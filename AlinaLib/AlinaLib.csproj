@@ -4,6 +4,7 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+ 	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <BaseOutputPath>C:\Projects\Alina\AlinaWpfUI\bin\Debug\net7.0-windows</BaseOutputPath>
   </PropertyGroup>

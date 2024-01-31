@@ -8,33 +8,44 @@
         mc:Ignorable="d"
         
 
-        Title="Alina - test job" Height="470" Width="800"
-        WindowStartupLocation="CenterScreen">
+        Title="Alina - test job" Height="670" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Closed="Window_Closed">
     <DockPanel>
         <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь до наблюдаемой папки:" Margin="0,10,0,0" Width="776">
             <DockPanel>
                 <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
                     <DockPanel>
-                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding FolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
-                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="Button_Click">Выбрать</Button>
+                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonIn_Click">Выбрать</Button>
+                    </DockPanel>
+                </RadioButton>
+                <RadioButton Content="Взять из файла 'Settings.xml'" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="20"/>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox DockPanel.Dock="Top" Height="80" Header="Путь выходных файлов:" Margin="0,10,0,0" Width="776">
+            <DockPanel>
+                <RadioButton IsChecked="true"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="auto">
+                    <DockPanel>
+                        <TextBlock Background="AliceBlue" DockPanel.Dock="Left" Text="{Binding Folders[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="650"></TextBlock>
+                        <Button IsEnabled="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=RadioButton}}" DockPanel.Dock="Right" Margin="10 0 0 0" Width="65" Click="ButtonOut_Click">Выбрать</Button>
                     </DockPanel>
                 </RadioButton>
                 <RadioButton Content="Взять из файла 'Settings.xml'" DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" Width="auto" Height="20"/>
             </DockPanel>
         </GroupBox>
         <GroupBox Height="150" VerticalAlignment="Top" Header="Найденные пары файлов:" DockPanel.Dock="Top" Margin="10, 10, 10, 0">
-            <ListView>
+            <ListView x:Name="PairLV">
                 
             </ListView>
         </GroupBox>
         <DockPanel DockPanel.Dock="Top" Height="130" VerticalAlignment="Stretch" Margin="10">
-            <GroupBox DockPanel.Dock="left" Width="400" VerticalAlignment="Stretch" HorizontalAlignment="Left" Header="Найденные файлы .csv">
-                <ListView>
-                    
+            <GroupBox DockPanel.Dock="left" Width="380" VerticalAlignment="Stretch" HorizontalAlignment="Left" Header="Найденные файлы .csv">
+                <ListView x:Name="CsvLV">
                 </ListView>
             </GroupBox>
             <GroupBox DockPanel.Dock="Right" Header="Найденные файлы .xml" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <ListView>
+                <ListView x:Name="XmlLV">
                     
                 </ListView>
             </GroupBox>

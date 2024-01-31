@@ -24,6 +24,20 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
                     .ToList()
             : Array.Empty<DataPair>();
 
+        public static IList<string> GetPairsCsvOnlyAsString(this DirectoryWatcher watcher) =>
+            watcher.DataPairs.Any()
+                ? watcher.GetPairsCsvOnly()
+                    .Select(x => $"{x.CsvData!.Name}, размер: {x.CsvData.SizeInB} Байт, дата изменения {x.CsvData.LastModifiedUtc}")
+                    .ToList()
+            : Array.Empty<string>();
+
+        public static IList<string> GetPairsXmlOnlyAsString(this DirectoryWatcher watcher) =>
+            watcher.DataPairs.Any()
+                ? watcher.GetPairsXmlOnly()
+                    .Select(x => $"{x.XmlData!.Name}, размер: {x.XmlData.SizeInB} Байт, дата изменения {x.XmlData.LastModifiedUtc}")
+                    .ToList()
+            : Array.Empty<string>();
+
         public static IList<string> GetCsvFilePathsWoPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? watcher.GetPairsCsvOnly()
@@ -52,6 +66,21 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
                     .ToList()
                 : Array.Empty<DataPair>();
 
+        public static IList<DataPair> GetDataPairsWithPair(this DirectoryWatcher watcher) =>
+            watcher.DataPairs.Any()
+                ? watcher.DataPairs
+                    .Where(x => x.hasBothHalf())
+                    .ToList()
+                : Array.Empty<DataPair>();
+
+        public static IList<string> GetDataPairsWithPairAsString(this DirectoryWatcher watcher) =>
+            watcher.DataPairs.Any()
+                ? watcher.GetDataPairsWithPair()
+                    .Select(x => 
+                        $"Пара: {x.CsvData!.Name} + {x.XmlData!.Name}, количество записей: {x.RecordCount}, статус: {StatusToText(x.isCompleted)}")
+                    .ToList()
+                : Array.Empty<string>();
+
         public static IList<int> GetAllIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? Enumerable.Range(0, watcher.DataPairs.Count)
@@ -77,5 +106,10 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             var records = GetRecords(pair);
             return new OutputData(records);
         }
+
+        private static string StatusToText(bool isCompleted) =>
+            isCompleted
+                ? "обработана"
+                : "не обработана";
     }
 }

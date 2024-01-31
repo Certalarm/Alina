@@ -24,7 +24,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         }
         #endregion
 
-        public bool hasBothHalf() => XmlData != null && CsvData != null;
+        public bool HasBothHalf() => XmlData != null && CsvData != null;
 
         public bool FindHalf(string fullPath)
         {

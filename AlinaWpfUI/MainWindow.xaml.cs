@@ -13,6 +13,8 @@ namespace AlinaWpfUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private object _locker = new object();
+
         private DirectoryWatcher _dirWatcher;
 
         public ObservableCollection<string> Folders { get; set; } = new ObservableCollection<string>();
@@ -41,25 +43,29 @@ namespace AlinaWpfUI
                 SelectedPath = Folders[0]
             };
             if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
-            Folders[0] = dialog.SelectedPath;
-            UpdateWatcher(Folders[0]);
+            if (Folders[0] != dialog.SelectedPath)
+            {
+                ClearLists();
+                Folders[0] = dialog.SelectedPath;
+                UpdateWatcher(Folders[0]);
+            }
         }
 
         private void UpdateUI()
         {
             if (_dirWatcher.GetCsvFilePathsWoPair().Count > 0)
             {
-                AddRange(CsvFiles, _dirWatcher.GetPairsCsvOnlyAsString());
+                InvokeAddRange(CsvFiles, _dirWatcher.GetPairsCsvOnlyAsString());
             }
 
             if (_dirWatcher.GetXmlFilePathsWoPair().Count > 0)
             {
-                AddRange(XmlFiles, _dirWatcher.GetPairsXmlOnlyAsString());
+                InvokeAddRange(XmlFiles, _dirWatcher.GetPairsXmlOnlyAsString());
             }
 
-            if(_dirWatcher.GetDataPairsWithPair().Count > 0)
+            if (_dirWatcher.GetDataPairsWithPair().Count > 0)
             {
-                AddRange(PairFiles, _dirWatcher.GetDataPairsWithPairAsString());
+                InvokeAddRange(PairFiles, _dirWatcher.GetDataPairsWithPairAsString());
             }
         }
 
@@ -86,22 +92,33 @@ namespace AlinaWpfUI
             _dirWatcher = new DirectoryWatcher(dirFullPath);
             _dirWatcher.PropertyChanged += (_, _) => UpdateUI();
             _dirWatcher.Start();
-            UpdateUI();
-            //if (_dirWatcher.DataPairs.Count > 0)
-            //    System.Windows.Forms.MessageBox.Show("la: " + _dirWatcher.GetCsvFilePathsWoPair()[0]);
         }
 
         private void CancelWatcher()
         {
-            // _dirWatcher.PropertyChanged -= (_, _) => UdateUI();
-            //_dirWatcher.Stop();
             _dirWatcher = null;
+        }
+
+        private void InvokeAddRange(ObservableCollection<string> target, IList<string> source)
+        {
+            Dispatcher.Invoke(() => AddRange(target, source));
         }
 
         private void AddRange(ObservableCollection<string> target, IList<string> source)
         {
+            if (source.Count < 1) return;
             foreach (var entry in source)
-                target.Add(entry);
+            {
+                if (!target.Contains(entry))
+                    target.Add(entry);
+            }
+        }
+
+        private void ClearLists()
+        {
+            XmlFiles.Clear();
+            CsvFiles.Clear();
+            PairFiles.Clear();
         }
     }
 }

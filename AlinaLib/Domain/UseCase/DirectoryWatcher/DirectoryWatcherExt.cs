@@ -13,14 +13,14 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         public static IList<DataPair> GetPairsXmlOnly(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? watcher.DataPairs
-                    .Where(x => !x.hasBothHalf() && x.XmlData != null)
+                    .Where(x => !x.HasBothHalf() && x.XmlData != null)
                     .ToList()
                 : Array.Empty<DataPair>();
 
         public static IList<DataPair> GetPairsCsvOnly(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? watcher.DataPairs
-                    .Where(x => !x.hasBothHalf() && x.CsvData != null)
+                    .Where(x => !x.HasBothHalf() && x.CsvData != null)
                     .ToList()
             : Array.Empty<DataPair>();
 
@@ -62,14 +62,14 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         public static IList<DataPair> GetDataPairsWoPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? watcher.DataPairs
-                    .Where(x => !x.hasBothHalf())
+                    .Where(x => !x.HasBothHalf())
                     .ToList()
                 : Array.Empty<DataPair>();
 
         public static IList<DataPair> GetDataPairsWithPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? watcher.DataPairs
-                    .Where(x => x.hasBothHalf())
+                    .Where(x => x.HasBothHalf())
                     .ToList()
                 : Array.Empty<DataPair>();
 
@@ -84,7 +84,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         public static IList<int> GetAllIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? Enumerable.Range(0, watcher.DataPairs.Count)
-                    .Where(x => watcher.DataPairs[x].hasBothHalf())
+                    .Where(x => watcher.DataPairs[x].HasBothHalf())
                     .ToList()
                 : Array.Empty<int>();
 
@@ -92,7 +92,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
         public static IList<int> GetNotCompletedIndexesDataPairsWithPair(this DirectoryWatcher watcher) =>
             watcher.DataPairs.Any()
                 ? Enumerable.Range(0, watcher.DataPairs.Count)
-                    .Where(x => watcher.DataPairs[x].hasBothHalf() && watcher.DataPairs[x].isCompleted)
+                    .Where(x => watcher.DataPairs[x].HasBothHalf() && watcher.DataPairs[x].isCompleted)
                     .ToList()
                 : Array.Empty<int>();
 

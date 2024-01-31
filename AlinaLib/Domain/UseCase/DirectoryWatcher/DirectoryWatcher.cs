@@ -21,7 +21,7 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             private set
             {
                 _dataPairs = value;
-                OnPropertyChanged(/*nameof(DataPairs)*/);
+                OnPropertyChanged(nameof(DataPairs));
             }
         }
 
@@ -88,8 +88,8 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
             if (IsBadParam(dirFullPath))
                 throw new ArgumentException(__dirNoExist);
             _watcher.Path = dirFullPath;
-            _watcher.Filter = $"*.{__csvExt}";//__searchPattern;
-            _watcher.Changed += (_, e) => StartProcessingFileChanges(e.FullPath);
+            _watcher.NotifyFilter = NotifyFilters.FileName;
+            _watcher.Filter = "*.*";
             _watcher.Created += (_, e) => StartProcessingFileChanges(e.FullPath);
         }
 
@@ -157,11 +157,16 @@ namespace AlinaLib.Domain.UseCase.DirectoryWatcher
                 if (dataPair.FindHalf(filePath))
                 {
                     wasFindedPair = true;
+                    OnPropertyChanged(nameof(DataPairs));
                     break;
                 }
             }
             if (!wasFindedPair)
+            {
                 DataPairs.Add(new DataPair(filePath));
+                OnPropertyChanged(nameof(DataPairs));
+            }
+
         }
     }
 }

@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using static AlinaLib.Utility.Txt;
-using static AlinaLib.Domain.Entity.DirectoryWatcherHelper;
-using System;
 
 namespace AlinaLib.Domain.Entity
 {

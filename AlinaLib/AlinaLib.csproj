@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Domain\UseCase\" />
+    <Folder Include="UseCase\DirectoryWatcher\" />
   </ItemGroup>
 
 </Project>

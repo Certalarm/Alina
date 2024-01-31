@@ -10,7 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\DirectoryWatcher\" />
+    <Compile Remove="UseCase\**" />
+    <EmbeddedResource Remove="UseCase\**" />
+    <None Remove="UseCase\**" />
+    <Page Remove="UseCase\**" />
   </ItemGroup>
 
 </Project>
